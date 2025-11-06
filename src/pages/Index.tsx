@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Sparkles } from "lucide-react";
 import { ChatMessage } from "@/components/ChatMessage";
 import { ChatInput } from "@/components/ChatInput";
 import { ChatSidebar } from "@/components/ChatSidebar";
 import { CompactModelSelector } from "@/components/CompactModelSelector";
+import { SystemPromptDialog } from "@/components/SystemPromptDialog";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useChat } from "@/hooks/useChat";
@@ -17,9 +18,10 @@ interface Conversation {
 const Index = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
   
   const [model, setModel] = useState("google/gemini-2.5-flash");
-  const [systemPrompt] = useState(
+  const [systemPrompt, setSystemPrompt] = useState(
     "You are a helpful, friendly, and knowledgeable AI assistant. Provide clear, accurate, and engaging responses."
   );
 
@@ -27,6 +29,16 @@ const Index = () => {
     model,
     systemPrompt,
   });
+
+  // Auto-scroll to bottom when messages update
+  useEffect(() => {
+    if (scrollAreaRef.current) {
+      const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      if (scrollContainer) {
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+      }
+    }
+  }, [messages]);
 
   const handleNewChat = () => {
     const newConv: Conversation = {
@@ -104,11 +116,17 @@ const Index = () => {
             <div className="h-6 w-px bg-border" />
             <CompactModelSelector value={model} onChange={setModel} />
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <SystemPromptDialog
+              systemPrompt={systemPrompt}
+              onSystemPromptChange={setSystemPrompt}
+            />
+            <ThemeToggle />
+          </div>
         </header>
 
         {/* Chat Area */}
-        <ScrollArea className="flex-1 p-6">
+        <ScrollArea ref={scrollAreaRef} className="flex-1 p-6">
           {messages.length === 0 ? (
             <div className="h-full flex items-center justify-center">
               <div className="text-center space-y-4 max-w-2xl">
