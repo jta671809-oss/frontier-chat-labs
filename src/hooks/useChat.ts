@@ -8,12 +8,10 @@ interface Message {
 
 interface UseChatProps {
   model: string;
-  temperature: number;
-  maxTokens: number;
   systemPrompt: string;
 }
 
-export const useChat = ({ model, temperature, maxTokens, systemPrompt }: UseChatProps) => {
+export const useChat = ({ model, systemPrompt }: UseChatProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -41,8 +39,6 @@ export const useChat = ({ model, temperature, maxTokens, systemPrompt }: UseChat
         body: JSON.stringify({
           messages: allMessages,
           model,
-          temperature,
-          maxTokens,
         }),
       });
 

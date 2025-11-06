@@ -61,6 +61,84 @@ All colors MUST be HSL.
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
+
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --ai-gradient-start: 262.1 83.3% 57.8%;
+    --ai-gradient-end: 217.2 91.2% 59.8%;
+    --user-message: 240 4.8% 95.9%;
+    --ai-message: 240 5% 96%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.9% 10%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-border: 240 5.9% 90%;
+  }
+
+  .purple {
+    --background: 280 40% 10%;
+    --foreground: 280 5% 90%;
+    --card: 280 35% 12%;
+    --card-foreground: 280 5% 90%;
+    --primary: 280 70% 60%;
+    --primary-foreground: 280 100% 95%;
+    --secondary: 280 30% 20%;
+    --secondary-foreground: 280 5% 90%;
+    --muted: 280 20% 25%;
+    --muted-foreground: 280 10% 60%;
+    --accent: 280 60% 50%;
+    --accent-foreground: 280 5% 90%;
+    --border: 280 20% 25%;
+    --input: 280 25% 22%;
+    --ring: 280 70% 60%;
+    --ai-gradient-start: 280 80% 60%;
+    --ai-gradient-end: 300 80% 65%;
+    --user-message: 280 30% 18%;
+    --ai-message: 280 25% 16%;
+    --sidebar-background: 280 40% 8%;
+    --sidebar-foreground: 280 5% 90%;
+    --sidebar-accent: 280 30% 15%;
+    --sidebar-border: 280 20% 20%;
+  }
+
+  .blue {
+    --background: 220 40% 12%;
+    --foreground: 220 5% 90%;
+    --card: 220 35% 14%;
+    --card-foreground: 220 5% 90%;
+    --primary: 210 100% 60%;
+    --primary-foreground: 210 100% 95%;
+    --secondary: 220 30% 20%;
+    --secondary-foreground: 220 5% 90%;
+    --muted: 220 20% 25%;
+    --muted-foreground: 220 10% 60%;
+    --accent: 210 80% 55%;
+    --accent-foreground: 220 5% 90%;
+    --border: 220 20% 25%;
+    --input: 220 25% 22%;
+    --ring: 210 100% 60%;
+    --ai-gradient-start: 200 80% 55%;
+    --ai-gradient-end: 220 90% 60%;
+    --user-message: 220 30% 18%;
+    --ai-message: 220 25% 16%;
+    --sidebar-background: 220 40% 10%;
+    --sidebar-foreground: 220 5% 90%;
+    --sidebar-accent: 220 30% 17%;
+    --sidebar-border: 220 20% 20%;
+  }
 }
 
 @layer base {

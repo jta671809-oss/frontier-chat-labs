@@ -3,7 +3,8 @@ import { Sparkles } from "lucide-react";
 import { ChatMessage } from "@/components/ChatMessage";
 import { ChatInput } from "@/components/ChatInput";
 import { ChatSidebar } from "@/components/ChatSidebar";
-import { SettingsPanel } from "@/components/SettingsPanel";
+import { CompactModelSelector } from "@/components/CompactModelSelector";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useChat } from "@/hooks/useChat";
 
@@ -17,18 +18,13 @@ const Index = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
   
-  // AI Settings
   const [model, setModel] = useState("google/gemini-2.5-flash");
-  const [temperature, setTemperature] = useState(0.7);
-  const [maxTokens, setMaxTokens] = useState(2048);
-  const [systemPrompt, setSystemPrompt] = useState(
+  const [systemPrompt] = useState(
     "You are a helpful, friendly, and knowledgeable AI assistant. Provide clear, accurate, and engaging responses."
   );
 
   const { messages, isLoading, sendMessage, clearMessages } = useChat({
     model,
-    temperature,
-    maxTokens,
     systemPrompt,
   });
 
@@ -54,6 +50,12 @@ const Index = () => {
       setCurrentConversationId(null);
       clearMessages();
     }
+  };
+
+  const handleRenameConversation = (id: string, newTitle: string) => {
+    setConversations((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, title: newTitle } : c))
+    );
   };
 
   const handleSendMessage = (content: string) => {
@@ -84,34 +86,25 @@ const Index = () => {
         onNewChat={handleNewChat}
         onSelectConversation={handleSelectConversation}
         onDeleteConversation={handleDeleteConversation}
+        onRenameConversation={handleRenameConversation}
       />
 
       <main className="flex-1 flex flex-col">
         {/* Header */}
-        <header className="border-b border-border px-6 py-4 flex items-center justify-between bg-card/50 backdrop-blur">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[hsl(var(--ai-gradient-start))] to-[hsl(var(--ai-gradient-end))] flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-[hsl(var(--ai-gradient-start))] to-[hsl(var(--ai-gradient-end))] bg-clip-text text-transparent">
+        <header className="border-b border-border px-6 py-3 flex items-center justify-between bg-card/50 backdrop-blur">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-[hsl(var(--ai-gradient-start))] to-[hsl(var(--ai-gradient-end))] flex items-center justify-center">
+                <Sparkles className="w-4 h-4 text-white" />
+              </div>
+              <h1 className="text-lg font-bold bg-gradient-to-r from-[hsl(var(--ai-gradient-start))] to-[hsl(var(--ai-gradient-end))] bg-clip-text text-transparent">
                 AI Chat
               </h1>
-              <p className="text-xs text-muted-foreground">
-                {model.split("/")[1].replace(/-/g, " ").toUpperCase()}
-              </p>
             </div>
+            <div className="h-6 w-px bg-border" />
+            <CompactModelSelector value={model} onChange={setModel} />
           </div>
-          <SettingsPanel
-            model={model}
-            temperature={temperature}
-            maxTokens={maxTokens}
-            systemPrompt={systemPrompt}
-            onModelChange={setModel}
-            onTemperatureChange={setTemperature}
-            onMaxTokensChange={setMaxTokens}
-            onSystemPromptChange={setSystemPrompt}
-          />
+          <ThemeToggle />
         </header>
 
         {/* Chat Area */}
@@ -146,7 +139,12 @@ const Index = () => {
           ) : (
             <div className="max-w-4xl mx-auto space-y-4">
               {messages.map((message, index) => (
-                <ChatMessage key={index} role={message.role} content={message.content} />
+                <ChatMessage 
+                  key={index} 
+                  role={message.role} 
+                  content={message.content}
+                  model={model}
+                />
               ))}
             </div>
           )}

@@ -9,7 +9,7 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { messages, model, temperature, maxTokens } = await req.json();
+    const { messages, model } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
     if (!LOVABLE_API_KEY) {
@@ -28,8 +28,7 @@ serve(async (req) => {
         model: model || "google/gemini-2.5-flash",
         messages,
         stream: true,
-        temperature: temperature !== undefined ? temperature : 0.7,
-        max_tokens: maxTokens || 2048,
+        max_completion_tokens: 4096,
       }),
     });
 
